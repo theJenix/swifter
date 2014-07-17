@@ -1,7 +1,7 @@
 //
 //  Promise.swift
 //
-//  This file implements a Promise and Future class, used for asynchronous calls that return a value.
+//  This file implements Promise and Future classes, used for asynchronous calls that return a value.
 //
 //  Created by Jesse Rosalia on 7/16/14.
 //  Copyright (c) 2014 Jesse Rosalia. All rights reserved.
@@ -23,13 +23,47 @@ import Foundation
 
 class Future<T> {
     
+    var succeed: (T -> ())?
+    
+    var fail: (() -> ())?
+    
     var value: T?
     
+    var failed: Bool = false
+
+    init(value: T? = nil) {
+        self.value = value
+    }
+
     func isValid() -> Bool {
         if let v = value {
             return true
         } else {
             return false
+        }
+    }
+
+    func failure() {
+        self.failed = true
+        self.fail?()
+    }
+
+    func success(value: T) {
+        self.value = value
+        succeed?(value)
+    }
+
+    func onSuccess(f: (T -> ())) {
+        self.succeed = f
+        if let v = value {
+            self.succeed?(v)
+        }
+    }
+    
+    func onFailure(f: (() -> ())) {
+        self.fail = f
+        if self.failed {
+            self.fail?()
         }
     }
 }
@@ -49,7 +83,8 @@ class Promise<T> {
     
     func future() -> Future<T> {
         let f = Future<T>()
-        then({ f.value = $0 })
+        then(f.success)
+        fail(f.failure)
         return f
     }
     
@@ -59,6 +94,7 @@ class Promise<T> {
     }
     
     func fail(f: () -> ()) -> Promise {
+        //TODO: multiple failure handlers
         fail = f
         return self
     }

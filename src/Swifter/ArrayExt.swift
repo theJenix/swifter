@@ -24,9 +24,35 @@ func findFirstInArray<T>(array: Array<T>, pred: (T -> Bool)) -> T? {
     }
 }
 
+
+func forEachInArray<T>(array: Array<T>, f: (T -> ())) {
+    for elem in array {
+        f(elem)
+    }
+}
+
+//FIXME: adding these extensions, or any functions that take a function argument, will cause the swift compiler to crash
+// (see my answer to https://stackoverflow.com/questions/24154163/xcode-swift-failed-with-exit-code-254/24793423) -- JR, 07/16/14
+extension NSArray {
+//    
+//    func findFirst(pred: (AnyObject -> Bool)) -> AnyObject? {
+//        return findFirstInArray(self, pred)
+//    }
+//
+//    func foreach(f: (AnyObject -> ())) {
+//        for elem in self {
+//            f(elem)
+//        }
+//    }
+}
+
 extension Array {
     
     func findFirst(pred: (T -> Bool)) -> T? {
         return findFirstInArray(self, pred)
+    }
+
+    func foreach(f: (T -> ())) {
+        forEachInArray(self, f)
     }
 }
