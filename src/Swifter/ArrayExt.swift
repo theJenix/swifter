@@ -55,4 +55,18 @@ extension Array {
     func foreach(f: (T -> ())) {
         forEachInArray(self, f)
     }
+ 
+    func grouped(n: Int) -> Array<Array<T>> {
+        var length = self.count
+        var groupCount = Int(ceil(Double(length) / Double(n)))
+        var groups = Array<Array<T>>()
+        for i in 0..<groupCount {
+            //            advance()
+            //            let rng:Range<String.Index> = Range(start: n * i, end: min(n * (i + 1), length - 1))
+            let rng = (n * i)..<min(n * (i + 1), length)
+            let slice = self[rng]
+            groups.append(Array(slice))
+        }
+        return groups
+    }
 }

@@ -9,11 +9,10 @@
 import Foundation
 
 func unsafePointerToArray<T>(ptr: UnsafePointer<T>, length: Int) -> Array<T> {
-    return [T](UnsafeArray(start: ptr, length: length))
+    return [T](UnsafeBufferPointer(start: ptr, count: length))
 }
 
 //FIXME: probably not the most efficient...
 func unsafePointerToNSData<T>(ptr: UnsafePointer<T>, length: Int) -> NSData {
-    let array = [T](UnsafeArray(start: ptr, length: length))
-    return NSData(bytes: array, length: array.count)
+    return NSData(bytes: ptr, length: length)
 }

@@ -11,7 +11,7 @@ import Foundation
 extension String {
     
     func length() -> Int {
-        return countElements(self)
+        return count(self)
     }
 
     //copied from http://stackoverflow.com/a/24045523/1050693
@@ -23,7 +23,7 @@ extension String {
         }
     }
     func substring(from: Int) -> String {
-        let end = countElements(self)
+        let end = count(self)
         return self[from..<end]
     }
     func substring(from: Int, length: Int) -> String {
