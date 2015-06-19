@@ -53,18 +53,20 @@ class Future<T> {
         succeed?(value)
     }
 
-    func onSuccess(f: (T -> ())) {
+    func onSuccess(f: (T -> ())) -> Self {
         self.succeed = f
         if let v = value {
             self.succeed?(v)
         }
+        return self
     }
     
-    func onFailure(f: (() -> ())) {
+    func onFailure(f: (() -> ())) -> Self {
         self.fail = f
         if self.failed {
             self.fail?()
         }
+        return self
     }
 }
 
@@ -88,12 +90,12 @@ class Promise<T> {
         return f
     }
     
-    func then(f: (T) -> ()) -> Promise {
+    func then(f: (T) -> ()) -> Self {
         pending.append(f)
         return self
     }
     
-    func fail(f: () -> ()) -> Promise {
+    func fail(f: () -> ()) -> Self {
         //TODO: multiple failure handlers
         fail = f
         return self

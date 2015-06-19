@@ -43,4 +43,18 @@ extension String {
         }
         return groups
     }
+    
+    /**
+     * Map a function over the string.  This function is useful for applying tests/changing values in the middle of a method chain
+     */
+    func map(f: (String -> String?)) -> String? {
+        return f(self)
+    }
+    
+    /**
+     * Generic trim function assumes we want to trim white space and new line characters
+     */
+    func trim() -> String {
+        return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+    }
 }

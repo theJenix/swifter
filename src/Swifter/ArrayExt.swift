@@ -55,7 +55,7 @@ extension Array {
     func foreach(f: (T -> ())) {
         forEachInArray(self, f)
     }
- 
+    
     func grouped(n: Int) -> Array<Array<T>> {
         var length = self.count
         var groupCount = Int(ceil(Double(length) / Double(n)))
