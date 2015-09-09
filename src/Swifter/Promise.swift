@@ -21,7 +21,7 @@ import Foundation
 //    //TODO wait, wait_for, wait_until
 //}
 
-class Future<T> {
+public class Future<T> {
     
     var succeed: (T -> ())?
     
@@ -31,7 +31,7 @@ class Future<T> {
     
     var failed: Bool = false
 
-    init(value: T? = nil) {
+    public init(value: T? = nil) {
         self.value = value
     }
 
@@ -53,7 +53,7 @@ class Future<T> {
         succeed?(value)
     }
 
-    func onSuccess(f: (T -> ())) -> Self {
+    public func onSuccess(f: (T -> ())) -> Self {
         self.succeed = f
         if let v = value {
             self.succeed?(v)
@@ -61,7 +61,7 @@ class Future<T> {
         return self
     }
     
-    func onFailure(f: (() -> ())) -> Self {
+    public func onFailure(f: (() -> ())) -> Self {
         self.fail = f
         if self.failed {
             self.fail?()
@@ -71,7 +71,7 @@ class Future<T> {
 }
 
 
-class Promise<T> {
+public class Promise<T> {
     
     var pending: [((T) -> ())] = []
     
@@ -79,11 +79,11 @@ class Promise<T> {
     
     var rejected: Bool = false
 
-    class func defer() -> Promise {
+    public class func defer() -> Promise {
         return Promise()
     }
     
-    func future() -> Future<T> {
+    public func future() -> Future<T> {
         let f = Future<T>()
         then(f.success)
         fail(f.failure)
@@ -101,7 +101,7 @@ class Promise<T> {
         return self
     }
     
-    func resolve(value: T?) -> () {
+    public func resolve(value: T?) -> () {
         if let v = value {
             for f in self.pending {
                 if self.rejected {
@@ -117,7 +117,11 @@ class Promise<T> {
             fail?()
         }
     }
-    
+    public func resolveWith(future: Future<T>) {
+        future.onSuccess({ self.resolve($0) })
+              .onFailure({ self.resolve(nil) })
+    }
+
     func reject() -> () {
         self.rejected = true
     }

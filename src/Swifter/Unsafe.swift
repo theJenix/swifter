@@ -8,11 +8,11 @@
 
 import Foundation
 
-func unsafePointerToArray<T>(ptr: UnsafePointer<T>, length: Int) -> Array<T> {
+public func unsafePointerToArray<T>(ptr: UnsafePointer<T>, length: Int) -> Array<T> {
     return [T](UnsafeBufferPointer(start: ptr, count: length))
 }
 
 //FIXME: probably not the most efficient...
-func unsafePointerToNSData<T>(ptr: UnsafePointer<T>, length: Int) -> NSData {
+public func unsafePointerToNSData<T>(ptr: UnsafePointer<T>, length: Int) -> NSData {
     return NSData(bytes: ptr, length: length)
 }

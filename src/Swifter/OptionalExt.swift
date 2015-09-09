@@ -10,4 +10,12 @@ extension Optional {
             return def
         }
     }
+    
+    func orElseO(defO:T?) -> T? {
+        if let v = self {
+            return v
+        } else {
+            return defO
+        }
+    }
 }
