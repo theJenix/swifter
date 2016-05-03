@@ -36,7 +36,7 @@ public class Future<T> {
     }
 
     func isValid() -> Bool {
-        if let v = value {
+        if value != nil {
             return true
         } else {
             return false
@@ -79,8 +79,9 @@ public class Promise<T> {
     
     var rejected: Bool = false
 
-    public class func defer() -> Promise {
+    public class func Defer() -> Promise {
         return Promise()
+        
     }
     
     public func future() -> Future<T> {

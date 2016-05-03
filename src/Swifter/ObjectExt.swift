@@ -10,8 +10,8 @@ import Foundation
 
 //TODO: pull out into library for GSON like object serialization (build on top of Alamofire and OCMapper?)
 public func toDictionary<T:NSObject>(foo:T) -> Dictionary<String,AnyObject> {
-    var aClass : AnyClass? = foo.dynamicType
-    return toDictionaryA(foo, aClass!)
+    let aClass : AnyClass? = foo.dynamicType
+    return toDictionaryA(foo, aClass: aClass!)
 }
 
 func toDictionaryA<T:NSObject>(foo:T, aClass:AnyClass) -> Dictionary<String,AnyObject> {
@@ -20,8 +20,8 @@ func toDictionaryA<T:NSObject>(foo:T, aClass:AnyClass) -> Dictionary<String,AnyO
     var propertiesDictionary:Dictionary<String,AnyObject> = Dictionary<String,AnyObject>()
     
     let propertiesInAClass : UnsafeMutablePointer<objc_property_t> = class_copyPropertyList(aClass, &propertiesCount)
-    for var i = 0; i < Int(propertiesCount); i++ {
-        var strKey : String? = NSString(CString: property_getName(propertiesInAClass[i]), encoding: NSUTF8StringEncoding) as String?
+    for i in 0 ..< Int(propertiesCount) {
+        let strKey : String? = NSString(CString: property_getName(propertiesInAClass[i]), encoding: NSUTF8StringEncoding) as String?
         if let sk = strKey {
             // Note: we can assume that this will return something valid
             //...because otherwise it will throw a NSUndefinedKeyException

@@ -11,19 +11,19 @@ import Foundation
 extension String {
     
     func length() -> Int {
-        return count(self)
+        return self.characters.count
     }
 
     //copied from http://stackoverflow.com/a/24045523/1050693
     subscript (r: Range<Int>) -> String {
         get {
-            let subStart = advance(self.startIndex, r.startIndex, self.endIndex)
-            let subEnd = advance(subStart, r.endIndex - r.startIndex, self.endIndex)
-            return self.substringWithRange(Range(start: subStart, end: subEnd))
+            let subStart = self.startIndex.advancedBy(r.startIndex, limit: self.endIndex)
+            let subEnd = subStart.advancedBy(r.endIndex - r.startIndex, limit: self.endIndex)
+            return self.substringWithRange(subStart..<subEnd)
         }
     }
     func substring(from: Int) -> String {
-        let end = count(self)
+        let end = self.length()
         return self[from..<end]
     }
     func substring(from: Int, length: Int) -> String {
@@ -32,8 +32,8 @@ extension String {
     }
     
     func grouped(n: Int) -> Array<String> {
-        var length = self.length()
-        var groupCount = Int(ceil(Double(length) / Double(n)))
+        let length = self.length()
+        let groupCount = Int(ceil(Double(length) / Double(n)))
         var groups = Array<String>()
         for i in 0..<groupCount {
 //            advance()

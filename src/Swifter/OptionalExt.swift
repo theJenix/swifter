@@ -3,7 +3,7 @@ import Foundation
 
 extension Optional {
 
-    func orElse(def:T) -> T {
+    func orElse(def:Wrapped) -> Wrapped {
         if let v = self {
             return v
         } else {
@@ -11,7 +11,7 @@ extension Optional {
         }
     }
     
-    func orElseO(defO:T?) -> T? {
+    func orElseO(defO:Wrapped?) -> Wrapped? {
         if let v = self {
             return v
         } else {

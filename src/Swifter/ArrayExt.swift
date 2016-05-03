@@ -48,18 +48,18 @@ extension NSArray {
 
 extension Array {
     
-    func findFirst(pred: (T -> Bool)) -> T? {
-        return findFirstInArray(self, pred)
+    func findFirst(pred: (Element -> Bool)) -> Element? {
+        return findFirstInArray(self, pred: pred)
     }
 
-    func foreach(f: (T -> ())) {
-        forEachInArray(self, f)
+    func foreach(f: (Element -> ())) {
+        forEachInArray(self, f: f)
     }
     
-    func grouped(n: Int) -> Array<Array<T>> {
-        var length = self.count
-        var groupCount = Int(ceil(Double(length) / Double(n)))
-        var groups = Array<Array<T>>()
+    func grouped(n: Int) -> Array<Array<Element>> {
+        let length = self.count
+        let groupCount = Int(ceil(Double(length) / Double(n)))
+        var groups = Array<Array<Element>>()
         for i in 0..<groupCount {
             //            advance()
             //            let rng:Range<String.Index> = Range(start: n * i, end: min(n * (i + 1), length - 1))
